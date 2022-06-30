@@ -255,7 +255,3 @@ type PlanScheduleObjectManager interface {
 
 
 
-
-[![Stargazers repo roster for @little-eight-china/little8-task](https://reporoster.com/stars/little-eight-china/little8-task)](https://github.com/little-eight-china/little8-task/stargazers)
-[![Forkers repo roster for @little-eight-china/little8-task](https://reporoster.com/forks/little-eight-china/little8-task)](https://github.com/little-eight-china/little8-task/network/members)
-
