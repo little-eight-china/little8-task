@@ -44,9 +44,10 @@ func (runner *DefaultRunner) Start() error {
 		<-runner.mutexChan
 
 		defer close(runner.exitChan)
+		runner.Run()
 	}()
 
-	return runner.Run()
+	return nil
 }
 
 func (runner *DefaultRunner) Shutdown() error {

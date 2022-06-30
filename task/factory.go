@@ -22,6 +22,11 @@ func (factory *RunnerFactory) getAdapter(mode string) Adapter {
 	return nil
 }
 
+func (factory *RunnerFactory) RegisterPlanAdapter() *RunnerFactory {
+	factory.adapters = append(factory.adapters, NewPlanAdapter())
+	return factory
+}
+
 func (factory *RunnerFactory) RegisterCronAdapter() *RunnerFactory {
 	factory.adapters = append(factory.adapters, NewCronAdapter())
 	return factory
@@ -33,7 +38,7 @@ func (factory *RunnerFactory) RegisterPeriodAdapter() *RunnerFactory {
 }
 
 func (factory *RunnerFactory) RegisterAllAdapter() *RunnerFactory {
-	return factory.RegisterCronAdapter().RegisterPeriodAdapter()
+	return factory.RegisterPlanAdapter().RegisterCronAdapter().RegisterPeriodAdapter()
 }
 
 type Adapter interface {
@@ -42,6 +47,21 @@ type Adapter interface {
 }
 
 type Adapters []Adapter
+
+type PlanAdapter struct {
+}
+
+func NewPlanAdapter() *PlanAdapter {
+	return &PlanAdapter{}
+}
+
+func (adapter *PlanAdapter) Supports(mode string) bool {
+	return mode == ModePlan
+}
+
+func (adapter *PlanAdapter) CreateRunner(task ExtendedTask) (Runner, error) {
+	return NewPlanRunner(task)
+}
 
 type CronAdapter struct {
 }

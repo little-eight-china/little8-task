@@ -22,12 +22,12 @@ func NewPeriodRunner(task PeriodExtendedTask) (*PeriodRunner, error) {
 	return &periodRunner, nil
 }
 
-func (runner *PeriodRunner) Run() error {
+func (runner *PeriodRunner) Run() {
 	if runner.IsCanceled() {
-		return nil
+		return
 	}
 	if !runner.PreExecute() {
-		return nil
+		return
 	}
 
 StartScheduling:
@@ -74,8 +74,8 @@ PeriodRunnerLoop:
 			}
 		}
 	}
-
-	return runner.CleanUp()
+	runner.CleanUp()
+	return
 }
 
 func alignNextTime(base time.Time, interval time.Duration, offset time.Duration) time.Time {

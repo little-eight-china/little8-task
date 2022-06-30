@@ -36,12 +36,12 @@ func NewCronRunner(task CronExtendedTask) (*CronRunner, error) {
 	return &cronRunner, nil
 }
 
-func (runner *CronRunner) Run() error {
+func (runner *CronRunner) Run() {
 	if runner.IsCanceled() {
-		return nil
+		return
 	}
 	if !runner.PreExecute() {
-		return nil
+		return
 	}
 
 	runner.lastExecuteTime = time.Now()
@@ -70,6 +70,6 @@ CronRunnerLoop:
 			runner.lastExecuteTime = time.Now()
 		}
 	}
-
-	return runner.CleanUp()
+	runner.CleanUp()
+	return
 }

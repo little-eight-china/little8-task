@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	ModePlan   = "Plan"
 	ModeCron   = "Cron"
 	ModePeriod = "Period"
 
@@ -32,7 +33,7 @@ type Task interface {
 type AbstractTask interface {
 	Task
 
-	Run() error
+	Run()
 }
 
 type ExtendedTask interface {
@@ -40,7 +41,7 @@ type ExtendedTask interface {
 
 	PreExecute() bool
 	Execute() bool
-	CleanUp() error
+	CleanUp()
 }
 
 type CronTask interface {
@@ -85,6 +86,7 @@ func NewDefaultTask(id string) *DefaultTask {
 	ctx, cancel := context.WithCancel(context.Background())
 	return &DefaultTask{
 		id:     id,
+		mode:   ModePlan,
 		ctx:    ctx,
 		cancel: cancel,
 	}
@@ -93,6 +95,10 @@ func NewDefaultTask(id string) *DefaultTask {
 func (task *DefaultTask) WithMode(mode string) *DefaultTask {
 	task.mode = mode
 	return task
+}
+
+func (task *DefaultTask) WithPlanMode() *DefaultTask {
+	return task.WithMode(ModePlan)
 }
 
 func (task *DefaultTask) WithCronMode() *DefaultTask {
